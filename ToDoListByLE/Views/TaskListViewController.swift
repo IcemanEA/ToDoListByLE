@@ -9,11 +9,15 @@ import UIKit
 
 /// Вью, которая отвечает за отображение Списка задач
 final class TaskListViewController: UITableViewController {
+	/// Связка с презентором представления
+	var presenter: ITaskListPresenter!
 
+	private let cellID = "task"
+	
 	private var sectionForTaskManager: ISectionForTaskManagerAdapter!
 	private var colorScheme: UIColor!
 	
-	private let cellID = "task"
+	private var renderedCell: UITableViewCell?
 	
 	convenience init(sectionForTaskManager: ISectionForTaskManagerAdapter, colorScheme: UIColor) {
 		self.init()
@@ -61,10 +65,10 @@ extension TaskListViewController {
 		sectionForTaskManager.getTasksInSection(in: section).count
 	}
 	
-	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {		
-		let task = sectionForTaskManager.getTasksInSection(in: indexPath.section)[indexPath.row]
+	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		presenter.selectRow(indexPath)
 		
-		return renderTaskCell(task, for: indexPath)
+		return renderedCell ?? UITableViewCell()
 	}
 	
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -79,31 +83,27 @@ extension TaskListViewController {
 	}
 }
 
-// MARK: - UITableViewCell
-extension TaskListViewController {
-	
-	/// Отрисовываем ячейку таблицы на основе выбранной Задачи
+// MARK: - Extension ITaskListView
+extension TaskListViewController: ITaskListView {
+	/// Отрисовываем ячейку таблицы на основе полученной информации презентера
 	/// - Parameters:
-	///   - task: Задача
-	///   - indexPath: номер секции и строки в таблице
-	/// - Returns: Отображение ячейки
-	func renderTaskCell(_ task: Task, for indexPath: IndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
+	///   - viewData: Структура презентора
+	func render(viewData: TaskViewData) {
+		let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: viewData.indexPath)
 		var content = cell.defaultContentConfiguration()
 		
-		content.text = task.title
-
+		content.text = viewData.title
+		
 		var expiredColor = UIColor.systemBackground
-		var uiImage = UIImage(isCompleted: task.completed)
-		if let task = task as? ImportantTask {
-			if !task.completed {
-				content.secondaryText = task.secondaryTitle
-				if task.isExpired {
-					expiredColor = .systemPink.withAlphaComponent(0.2)
-				}
-			}
-			
-			switch task.priority {
+		var uiImage = UIImage(isCompleted: viewData.isCompleted)
+		if let secondaryTitle = viewData.secondaryTitle {
+			content.secondaryText = secondaryTitle
+		}
+		if viewData.isExpired ?? false {
+			expiredColor = .systemPink.withAlphaComponent(0.2)
+		}
+		if let priority = viewData.priority {
+			switch priority {
 			case .low:
 				uiImage = uiImage.withTintColor(.systemGreen, renderingMode: .alwaysOriginal)
 			case .medium:
@@ -117,15 +117,6 @@ extension TaskListViewController {
 		cell.contentConfiguration = content
 		cell.backgroundColor = expiredColor
 		
-		return cell
-	}
-}
-
-// MARK: - Extension ImportantTask
-extension ImportantTask {
-	/// Рассчитываем подзаголовок для Задач с временем исполнения
-	var secondaryTitle: String {
-		let date = expiredDate?.formatted(date: .abbreviated, time: .omitted) ?? ""
-		return "Expired \(date)"
+		renderedCell = cell
 	}
 }

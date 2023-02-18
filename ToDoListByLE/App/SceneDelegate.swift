@@ -27,6 +27,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 			colorScheme: colorScheme
 		)
 		
+		let presenter = TaskListPresenter(view: taskListVC, sectionTaskManager: sectionForTaskManager)
+		taskListVC.presenter = presenter
+		
 		window.rootViewController = UINavigationController(rootViewController: taskListVC)
 		window.tintColor = colorScheme
 		

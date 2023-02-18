@@ -12,14 +12,21 @@ protocol ISectionForTaskManagerAdapter {
 	/// Получение списка наименования секций.
 	/// - Returns: Список секций
 	func getSectionTitles() -> [String]
+
 	/// Получение списка задач в конкретной секции.
 	/// - Parameter index: Номер секции
 	/// - Returns: Список задач
 	func getTasksInSection(in index: Int) -> [Task]
+
 	/// Получение позиции в списке конкретной задачи.
 	/// - Parameter task: Конкретная задача
 	/// - Returns: Структура с номером секции и строки
 	func getPosition(for task: Task) -> IndexPath
+	
+	/// Получение конкретной задачи по номеру секции и строки.
+	/// - Parameter indexPath: Номер секции и строки
+	/// - Returns: Конкретная задача
+	func getTask(from indexPath: IndexPath) -> Task?
 }
 
 /// Адаптер отрисовки табличных секций списка задач.
@@ -55,6 +62,15 @@ final class SectionForTaskManagerAdapter: ISectionForTaskManagerAdapter {
 		}
 		
 		return IndexPath(row: row, section: section)
+	}
+	
+	func getTask(from indexPath: IndexPath) -> Task? {
+		guard
+			sections.count > indexPath.section,
+			getGroupingOnCompletedTasks(in: indexPath.section).count > indexPath.row
+		else { return nil }
+		
+		return getGroupingOnCompletedTasks(in: indexPath.section)[indexPath.row]
 	}
 	
 	private func getGroupingOnCompletedTasks(in index: Int) -> [Task] {
