@@ -22,6 +22,8 @@
 		4866EC0729A0EDA700558096 /* TaskBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4866EC0629A0EDA700558096 /* TaskBuilder.swift */; };
 		4866EC0929A1006800558096 /* TaskListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4866EC0829A1006800558096 /* TaskListView.swift */; };
 		4866EC0C29A1045C00558096 /* TaskListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4866EC0B29A1045C00558096 /* TaskListPresenter.swift */; };
+		4866EC1029A1219C00558096 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 4866EC0D29A1219C00558096 /* README.md */; };
+		4866EC1129A1219C00558096 /* TodoList.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4866EC0F29A1219C00558096 /* TodoList.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +44,8 @@
 		4866EC0629A0EDA700558096 /* TaskBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskBuilder.swift; sourceTree = "<group>"; };
 		4866EC0829A1006800558096 /* TaskListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListView.swift; sourceTree = "<group>"; };
 		4866EC0B29A1045C00558096 /* TaskListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListPresenter.swift; sourceTree = "<group>"; };
+		4866EC0D29A1219C00558096 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		4866EC0F29A1219C00558096 /* TodoList.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = TodoList.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +63,8 @@
 			isa = PBXGroup;
 			children = (
 				482AA6CA299902120035891F /* ToDoListByLE */,
+				4866EC0D29A1219C00558096 /* README.md */,
+				4866EC0E29A1219C00558096 /* readme_assets */,
 				482AA6C9299902120035891F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -142,6 +148,14 @@
 			path = Presenter;
 			sourceTree = "<group>";
 		};
+		4866EC0E29A1219C00558096 /* readme_assets */ = {
+			isa = PBXGroup;
+			children = (
+				4866EC0F29A1219C00558096 /* TodoList.jpg */,
+			);
+			path = readme_assets;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -200,6 +214,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4866EC1029A1219C00558096 /* README.md in Resources */,
+				4866EC1129A1219C00558096 /* TodoList.jpg in Resources */,
 				482AA6D8299902140035891F /* LaunchScreen.storyboard in Resources */,
 				482AA6D5299902140035891F /* Assets.xcassets in Resources */,
 			);

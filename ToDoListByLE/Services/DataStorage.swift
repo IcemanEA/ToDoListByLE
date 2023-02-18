@@ -16,20 +16,20 @@ final class DataStorage {
 	}
 	
 	private func createTasks() {
-		let expiredTask = ImportantTask(title: "Забыл купить", completed: false, priority: .high)
+		let expiredTask = ImportantTask(title: "Оплатить интернет", completed: false, priority: .high)
 		expiredTask.expiredDate = Calendar.current.date(byAdding: .day, value: -1, to: Date())
 		
 		tasks = [
-			ImportantTask(title: "Пышки", completed: false, priority: .high),
-			ImportantTask(title: "Бублики", completed: true, priority: .medium),
-			RegularTask(title: "Обои", completed: false),
-			ImportantTask(title: "Сушки", completed: true, priority: .high),
-			RegularTask(title: "Веники", completed: false),
-			ImportantTask(title: "Баранки", completed: false, priority: .low),
-			RegularTask(title: "Ведра", completed: true),
+			ImportantTask(title: "Оплатить телефон", completed: false, priority: .high),
+			ImportantTask(title: "Купить яйца", completed: true, priority: .medium),
+			RegularTask(title: "Выбросить коробки", completed: false),
+			ImportantTask(title: "Оплатить учебу", completed: true, priority: .high),
+			RegularTask(title: "Разобрать шкаф", completed: false),
+			ImportantTask(title: "Зайти на почту за письмом", completed: false, priority: .low),
+			RegularTask(title: "Помыть посуду", completed: true),
 			expiredTask,
-			ImportantTask(title: "Пончики", completed: false, priority: .medium),
-			RegularTask(title: "Бутылки", completed: false)
+			ImportantTask(title: "Купить масло", completed: false, priority: .medium),
+			RegularTask(title: "Помыть зимнюю обувь", completed: false)
 		]
 	}
 }
