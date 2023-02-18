@@ -7,20 +7,17 @@
 
 import UIKit
 
-class TaskListViewController: UITableViewController {
+/// Вью, которая отвечает за отображение Списка задач
+final class TaskListViewController: UITableViewController {
 
-	private var taskManager: ITaskManager!
-	private var taskController: ITaskController!
-	private var taskRepository: ITaskRepository!
+	private var sectionForTaskManager: ISectionForTaskManagerAdapter!
 	private var colorScheme: UIColor!
 	
 	private let cellID = "task"
 	
-	convenience init(taskManager: ITaskManager, taskController: ITaskController, taskRepository: ITaskRepository, colorScheme: UIColor) {
+	convenience init(sectionForTaskManager: ISectionForTaskManagerAdapter, colorScheme: UIColor) {
 		self.init()
-		self.taskManager = taskManager
-		self.taskController = taskController
-		self.taskRepository = taskRepository
+		self.sectionForTaskManager = sectionForTaskManager
 		self.colorScheme = colorScheme
 	}
 	
@@ -30,7 +27,6 @@ class TaskListViewController: UITableViewController {
 		view.backgroundColor = .systemBackground
 		
 		setupNavigationBar()
-		fetchData()
 	}
 	
 	// MARK: - Setup UI
@@ -49,50 +45,48 @@ class TaskListViewController: UITableViewController {
 		
 		navigationController?.navigationBar.tintColor = .white
 	}
-	
-	// MARK: - Private methods
-	private func fetchData() {
-		taskRepository.list { tasks in
-			for task in tasks {
-				taskManager.addTask(task)
-			}
-			taskController.updateSections(with: tasks)
-		}
-	}
 }
 
 // MARK: - TableView
 extension TaskListViewController {
 	override func numberOfSections(in tableView: UITableView) -> Int {
-		taskController.sections.count
+		sectionForTaskManager.getSectionTitles().count
 	}
 	
 	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-		taskController.sections[section].name
+		sectionForTaskManager.getSectionTitles()[section]
 	}
 	
 	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		taskController.sections[section].tasks.count
+		sectionForTaskManager.getTasksInSection(in: section).count
 	}
 	
-	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		
-		let task = taskController.sections[indexPath.section].tasks[indexPath.row]
+	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {		
+		let task = sectionForTaskManager.getTasksInSection(in: indexPath.section)[indexPath.row]
 		
 		return renderTaskCell(task, for: indexPath)
 	}
 	
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		tableView.deselectRow(at: indexPath, animated: true)
-		let task = taskController.sections[indexPath.section].tasks[indexPath.row]
-		taskManager.setTaskAsCompleted(task)
-		taskController.updateSections(with: taskManager.getTasksList(isCompleted: nil))
-		tableView.reloadData()
+		
+		let task = sectionForTaskManager.getTasksInSection(in: indexPath.section)[indexPath.row]
+		task.completed.toggle()
+		
+		let newIndexPath = sectionForTaskManager.getPosition(for: task)
+		tableView.moveRow(at: indexPath, to: newIndexPath)
+		tableView.reloadRows(at: [newIndexPath], with: .automatic)
 	}
 }
 
 // MARK: - UITableViewCell
 extension TaskListViewController {
+	
+	/// Отрисовываем ячейку таблицы на основе выбранной Задачи
+	/// - Parameters:
+	///   - task: Задача
+	///   - indexPath: номер секции и строки в таблице
+	/// - Returns: Отображение ячейки
 	func renderTaskCell(_ task: Task, for indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
 		var content = cell.defaultContentConfiguration()
@@ -129,6 +123,7 @@ extension TaskListViewController {
 
 // MARK: - Extension ImportantTask
 extension ImportantTask {
+	/// Рассчитываем подзаголовок для Задач с временем исполнения
 	var secondaryTitle: String {
 		let date = expiredDate?.formatted(date: .abbreviated, time: .omitted) ?? ""
 		return "Expired \(date)"

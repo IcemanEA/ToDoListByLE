@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Модель хранения задачи.
 class Task {
 	/// Название
 	let title: String
@@ -24,20 +25,26 @@ class Task {
 }
 
 // MARK: - RegularTask
-class RegularTask: Task {}
+/// Обычная задача.
+final class RegularTask: Task {}
 
 
 // MARK: - ImportantTask
+
+/// Приоритет для выполнения задач.
 enum TaskPriority: String, CaseIterable {
 	case low = "Low"
 	case medium = "Medium"
 	case high = "High"
 }
 
-class ImportantTask: Task {
+/// Важная задача с приоритетом и сроком выполнения.
+final class ImportantTask: Task {
+	/// Приоритет выполнения
 	let priority: TaskPriority
+	/// Срок исполнения задача
 	var expiredDate: Date?
-	
+	/// Рассчетное свойство истечения срока выполнения задачи
 	var isExpired: Bool {
 		expiredDate ?? Date() < Date()
 	}

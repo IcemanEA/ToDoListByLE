@@ -11,20 +11,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 	
 	var window: UIWindow?
 	
-	private let taskManager: ITaskManager = TaskManager()
-	private let taskController: ITaskController = TaskController(grouping: .inCompleted,
-																 sorting: .forCompleted)
 	private let dataStorage: ITaskRepository = DataStorage()
+	private var taskBuilder: ITaskBuilder!
 	
 	func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
 		guard let windowScene = (scene as? UIWindowScene) else { return }
 		let window = UIWindow(windowScene: windowScene)
 				
-		let colorScheme = UIColor(red: 56/255, green: 68/255, blue: 211/255, alpha: 194/255)
-		let taskListVC = TaskListViewController(taskManager: taskManager,
-												taskController: taskController,
-												taskRepository: dataStorage,
-												colorScheme: colorScheme)
+		taskBuilder = TaskBuilder(repository: dataStorage)
+		let sectionForTaskManager = taskBuilder.buildDataForView(with: nil)
+		let colorScheme = UIColor(red: 56/255, green: 68/255, blue: 211/255, alpha: 194/255)		
+		
+		let taskListVC = TaskListViewController(
+			sectionForTaskManager: sectionForTaskManager,
+			colorScheme: colorScheme
+		)
+		
 		window.rootViewController = UINavigationController(rootViewController: taskListVC)
 		window.tintColor = colorScheme
 		

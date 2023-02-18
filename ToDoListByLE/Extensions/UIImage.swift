@@ -8,6 +8,8 @@
 import UIKit
 
 extension UIImage {
+	/// Создании картинки для отображения выполнения задачи.
+	/// - Parameter isCompleted: статус выполнения задачи
 	convenience init(isCompleted: Bool) {
 		if isCompleted {
 			self.init(systemName: "checkmark.seal")!

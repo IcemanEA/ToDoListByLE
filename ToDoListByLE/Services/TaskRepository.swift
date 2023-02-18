@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Протокол для работы с различными хранилищами списка задача.
 protocol ITaskRepository {
 	func list(completion: ([Task]) -> Void)
 }

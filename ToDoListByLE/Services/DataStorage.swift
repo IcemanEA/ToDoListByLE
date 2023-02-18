@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Моковое хранилище списка задач.
 final class DataStorage {
 	private var tasks: [Task] = []
 	
