@@ -18,6 +18,13 @@
 		482AA6EC29991D790035891F /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482AA6EB29991D790035891F /* UIImage.swift */; };
 		482AA6F4299D5BFA0035891F /* TaskRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482AA6F3299D5BFA0035891F /* TaskRepository.swift */; };
 		482AA6F6299D62E40035891F /* SectionForTaskManagerAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482AA6F5299D62E30035891F /* SectionForTaskManagerAdapter.swift */; };
+		484C797729A5692500D34454 /* LoginWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484C797229A5692500D34454 /* LoginWorker.swift */; };
+		484C797829A5692500D34454 /* LoginPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484C797329A5692500D34454 /* LoginPresenter.swift */; };
+		484C797929A5692500D34454 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484C797429A5692500D34454 /* LoginViewController.swift */; };
+		484C797A29A5692500D34454 /* LoginInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484C797529A5692500D34454 /* LoginInteractor.swift */; };
+		484C797B29A5692500D34454 /* LoginModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484C797629A5692500D34454 /* LoginModels.swift */; };
+		484C797D29A5693D00D34454 /* LoginRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484C797C29A5693D00D34454 /* LoginRouter.swift */; };
+		484C797F29A5694F00D34454 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 484C797E29A5694F00D34454 /* Login.storyboard */; };
 		4866EC0529A0ED8000558096 /* OrderedTaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4866EC0329A0D2C600558096 /* OrderedTaskManager.swift */; };
 		4866EC0729A0EDA700558096 /* TaskBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4866EC0629A0EDA700558096 /* TaskBuilder.swift */; };
 		4866EC0929A1006800558096 /* TaskListViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4866EC0829A1006800558096 /* TaskListViewData.swift */; };
@@ -40,6 +47,13 @@
 		482AA6EB29991D790035891F /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		482AA6F3299D5BFA0035891F /* TaskRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRepository.swift; sourceTree = "<group>"; };
 		482AA6F5299D62E30035891F /* SectionForTaskManagerAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionForTaskManagerAdapter.swift; sourceTree = "<group>"; };
+		484C797229A5692500D34454 /* LoginWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginWorker.swift; sourceTree = "<group>"; };
+		484C797329A5692500D34454 /* LoginPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginPresenter.swift; sourceTree = "<group>"; };
+		484C797429A5692500D34454 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		484C797529A5692500D34454 /* LoginInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginInteractor.swift; sourceTree = "<group>"; };
+		484C797629A5692500D34454 /* LoginModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginModels.swift; sourceTree = "<group>"; };
+		484C797C29A5693D00D34454 /* LoginRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginRouter.swift; sourceTree = "<group>"; };
+		484C797E29A5694F00D34454 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		4866EC0329A0D2C600558096 /* OrderedTaskManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderedTaskManager.swift; sourceTree = "<group>"; };
 		4866EC0629A0EDA700558096 /* TaskBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskBuilder.swift; sourceTree = "<group>"; };
 		4866EC0829A1006800558096 /* TaskListViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewData.swift; sourceTree = "<group>"; };
@@ -143,17 +157,24 @@
 		484C797129A547FA00D34454 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				4866EC0A29A1043C00558096 /* LogIn */,
+				4866EC0A29A1043C00558096 /* Login */,
 				482AA6E5299904160035891F /* TaskList */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
 		};
-		4866EC0A29A1043C00558096 /* LogIn */ = {
+		4866EC0A29A1043C00558096 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				484C797E29A5694F00D34454 /* Login.storyboard */,
+				484C797C29A5693D00D34454 /* LoginRouter.swift */,
+				484C797529A5692500D34454 /* LoginInteractor.swift */,
+				484C797629A5692500D34454 /* LoginModels.swift */,
+				484C797329A5692500D34454 /* LoginPresenter.swift */,
+				484C797429A5692500D34454 /* LoginViewController.swift */,
+				484C797229A5692500D34454 /* LoginWorker.swift */,
 			);
-			path = LogIn;
+			path = Login;
 			sourceTree = "<group>";
 		};
 		4866EC0E29A1219C00558096 /* readme_assets */ = {
@@ -223,6 +244,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4866EC1029A1219C00558096 /* README.md in Resources */,
+				484C797F29A5694F00D34454 /* Login.storyboard in Resources */,
 				4866EC1129A1219C00558096 /* TodoList.jpg in Resources */,
 				482AA6D8299902140035891F /* LaunchScreen.storyboard in Resources */,
 				482AA6D5299902140035891F /* Assets.xcassets in Resources */,
@@ -236,6 +258,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				484C797A29A5692500D34454 /* LoginInteractor.swift in Sources */,
 				482AA6E12999024B0035891F /* TaskManager.swift in Sources */,
 				482AA6D0299902120035891F /* TaskListViewController.swift in Sources */,
 				4866EC0529A0ED8000558096 /* OrderedTaskManager.swift in Sources */,
@@ -245,10 +268,15 @@
 				482AA6F6299D62E40035891F /* SectionForTaskManagerAdapter.swift in Sources */,
 				4866EC0729A0EDA700558096 /* TaskBuilder.swift in Sources */,
 				482AA6E9299915E10035891F /* DataStorage.swift in Sources */,
+				484C797829A5692500D34454 /* LoginPresenter.swift in Sources */,
+				484C797729A5692500D34454 /* LoginWorker.swift in Sources */,
 				482AA6CC299902120035891F /* AppDelegate.swift in Sources */,
+				484C797929A5692500D34454 /* LoginViewController.swift in Sources */,
 				482AA6CE299902120035891F /* SceneDelegate.swift in Sources */,
+				484C797B29A5692500D34454 /* LoginModels.swift in Sources */,
 				482AA6EC29991D790035891F /* UIImage.swift in Sources */,
 				4866EC0929A1006800558096 /* TaskListViewData.swift in Sources */,
+				484C797D29A5693D00D34454 /* LoginRouter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
