@@ -19,14 +19,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		let window = UIWindow(windowScene: windowScene)
 				
 		taskBuilder = TaskBuilder(repository: dataStorage)
-		let sectionForTaskManager = taskBuilder.buildDataForView(with: nil)
+		let sectionForTaskManager = taskBuilder.buildDataForView(with: .original)
 		let colorScheme = UIColor(red: 56/255, green: 68/255, blue: 211/255, alpha: 194/255)		
 		
-		let taskListVC = TaskListViewController(
-			sectionForTaskManager: sectionForTaskManager,
-			colorScheme: colorScheme
-		)
-		
+		let taskListVC = TaskListViewController(colorScheme: colorScheme)
 		let presenter = TaskListPresenter(view: taskListVC, sectionTaskManager: sectionForTaskManager)
 		taskListVC.presenter = presenter
 		

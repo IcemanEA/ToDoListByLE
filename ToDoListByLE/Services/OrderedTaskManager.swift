@@ -8,7 +8,8 @@
 import Foundation
 
 /// Виды сортировки заданий
-enum TaskSorting {
+enum SortingType {
+	case original
 	case forExpiredDate
 	case forImportant
 	case forNoImportant
@@ -18,13 +19,13 @@ enum TaskSorting {
 final class OrderedTaskManager: ITaskManager {
 	
 	private let taskManager: ITaskManager
-	private let sorting: TaskSorting
+	private let sorting: SortingType
 	
 	/// Инициализация отсортированного списка.
 	/// - Parameters:
 	///   - taskManager: Менеджер управления списком задач
 	///   - sorting: Вид сортировки
-	internal init(taskManager: ITaskManager, sorting: TaskSorting) {
+	internal init(taskManager: ITaskManager, sorting: SortingType) {
 		self.taskManager = taskManager
 		self.sorting = sorting
 	}
@@ -54,6 +55,8 @@ final class OrderedTaskManager: ITaskManager {
 		tasks = tasks.sorted {
 			if let task0 = $0 as? ImportantTask, let task1 = $1 as? ImportantTask {
 				switch sorting {
+				case .original:
+					return true
 				case .forExpiredDate:
 					return task0.expiredDate ?? Date() < task1.expiredDate ?? Date()
 				case .forImportant:

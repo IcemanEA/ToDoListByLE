@@ -11,7 +11,7 @@ protocol ITaskBuilder {
 	/// Генерация адаптера для отображения списка задач по секциям.
 	/// - Parameter sorting: Тип сортировки внутри секции
 	/// - Returns: Секционный адаптер
-	func buildDataForView(with sorting: TaskSorting?) -> ISectionForTaskManagerAdapter
+	func buildDataForView(with sorting: SortingType) -> ISectionForTaskManagerAdapter
 }
 
 /// Строитель зависимостей для отображения и работы со списком задач
@@ -25,13 +25,9 @@ final class TaskBuilder: ITaskBuilder {
 		fetchData(dataStorage: repository)
 	}
 			
-	func buildDataForView(with sorting: TaskSorting?) -> ISectionForTaskManagerAdapter{
-		if let sorting {
-			orderedTaskManager = OrderedTaskManager(taskManager: taskManager, sorting: sorting)
-			return SectionForTaskManagerAdapter(taskManager: orderedTaskManager)
-		}
-		
-		return SectionForTaskManagerAdapter(taskManager: taskManager)
+	func buildDataForView(with sorting: SortingType) -> ISectionForTaskManagerAdapter{
+		orderedTaskManager = OrderedTaskManager(taskManager: taskManager, sorting: sorting)
+		return SectionForTaskManagerAdapter(taskManager: orderedTaskManager)
 	}
 				
 	// MARK: - Private methods
