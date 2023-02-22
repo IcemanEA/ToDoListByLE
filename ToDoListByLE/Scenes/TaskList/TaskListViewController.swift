@@ -7,21 +7,25 @@
 
 import UIKit
 
+/// Протокол для Представления списка задач.
 protocol ITaskListViewController: AnyObject {
 	/// Отрисовка ячейки информации в списке задач
 	/// - Parameter viewData: Единица хранения информации для отрисовки
-	func render(viewData: TaskModel.ViewData)
+	func render(viewData: TaskListModels.ViewData)
+	
+	/// Подготовка View к загрузке VIP
+	/// - Parameter interactor: ссылка на интерактор
+	func assembly(interactor: ITaskListInteractor)
 }
 
-/// View, которая отвечает за отображение Списка задач
+/// Представление, которое отвечает за отображение Списка задач
 final class TaskListViewController: UITableViewController {
 	/// Связка с презентором представления
-	var presenter: ITaskListPresenter!
-	/// Данные презентора для предоставления
-	private var viewData: TaskModel.ViewData = TaskModel.ViewData(tasksBySection: [])
+	private var interactor: ITaskListInteractor!
+	/// Данные презентора для представления
+	private var viewData: TaskListModels.ViewData = TaskListModels.ViewData(tasksBySection: [])
 
 	private let cellID = "task"
-	
 	private var colorScheme: UIColor!
 	
 	convenience init(colorScheme: UIColor) {
@@ -35,7 +39,7 @@ final class TaskListViewController: UITableViewController {
 		view.backgroundColor = .systemBackground
 		
 		setupNavigationBar()
-		presenter.viewIsReady()
+		interactor.viewIsReady()
 	}
 	
 	// MARK: - Setup UI
@@ -90,7 +94,7 @@ extension TaskListViewController {
 			if let secondaryTitle = task.secondaryTitle {
 				content.secondaryText = secondaryTitle
 			}
-			if task.isExpired ?? false {
+			if task.isExpired ?? false, !task.isCompleted {
 				expiredColor = .systemPink.withAlphaComponent(0.2)
 			}
 			if let priority = task.priority {
@@ -115,7 +119,7 @@ extension TaskListViewController {
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		tableView.deselectRow(at: indexPath, animated: true)
 		
-		_ = presenter.updateRow(at: indexPath)
+		interactor.updateRow(at: indexPath)
 		// в такой реализации не подвинуть строку, она не успеваем обновиться
 //		tableView.moveRow(at: indexPath, to: newIndexPath)
 //		tableView.reloadRows(at: [newIndexPath], with: .automatic)
@@ -124,11 +128,12 @@ extension TaskListViewController {
 
 // MARK: - Extension ITaskListViewController
 extension TaskListViewController: ITaskListViewController {
-	/// Отрисовываем таблицу на основе полученной информации презентера
-	/// - Parameters:
-	///   - viewData: Структура презентора
-	func render(viewData: TaskModel.ViewData) {
+	func render(viewData: TaskListModels.ViewData) {
 		self.viewData = viewData
 		tableView.reloadData()
+	}
+	
+	func assembly(interactor: ITaskListInteractor) {
+		self.interactor = interactor
 	}
 }

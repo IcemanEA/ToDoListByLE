@@ -12,7 +12,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 	var window: UIWindow?
 	
 	private let dataStorage: ITaskRepository = DataStorage()
-	private var taskBuilder: ITaskBuilder!
+	private let taskManager: ITaskManager = TaskManager()
 	
 	private var colorScheme: UIColor {
 		UIColor(red: 56/255, green: 68/255, blue: 211/255, alpha: 194/255)
@@ -38,11 +38,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 			fatalError("Нет на Login.storyboard LoginViewController!")
 		}
 		
-		taskBuilder = TaskBuilder(repository: dataStorage)
-		let sectionForTaskManager = taskBuilder.buildDataForView(with: .original)
+		let taskListBuilder = TaskListBuilder(repository: dataStorage, taskManager: taskManager)
 		let taskListVC = TaskListViewController(colorScheme: colorScheme)
-		let taskPresenter = TaskListPresenter(view: taskListVC, sectionTaskManager: sectionForTaskManager)
-		taskListVC.presenter = taskPresenter
+		let taskListPresenter = TaskListPresenter(view: taskListVC)
+		let taskListInteractor = TaskListInteractor(builder: taskListBuilder, presenter: taskListPresenter)
+		taskListVC.assembly(interactor: taskListInteractor)
 		
 		let loginRouter = LoginRouter(source: loginVC, destination: taskListVC)
 		let worker = LoginWorker()

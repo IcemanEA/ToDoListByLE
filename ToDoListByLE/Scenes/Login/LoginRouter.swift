@@ -7,10 +7,13 @@
 
 import UIKit
 
+/// Протокол для роутера экрана ввода данных пользователя
 protocol ILoginRouter {
+	/// Переход на главный экран приложения после успешного логина
 	func routeToMain()
 }
 
+/// Роутер экрана ввода данных пользователя
 final class LoginRouter: ILoginRouter {
 	private let source: LoginViewController
 	private let destination: TaskListViewController

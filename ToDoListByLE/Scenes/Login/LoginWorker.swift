@@ -13,11 +13,13 @@ public struct LoginDTO {
 	var lastLoginDate: Date
 }
 
+/// Протокол для менеджера обработки данных экрана логина
 protocol ILoginWorker {
 	func login(login: String, password: String) -> LoginDTO
 }
 
-class LoginWorker: ILoginWorker {
+/// Менеджер обработки данных экрана логина
+final class LoginWorker: ILoginWorker {
 	func login(login: String, password: String) -> LoginDTO {
 		
 		if login == "Admin" && password == "pa$$32!" {

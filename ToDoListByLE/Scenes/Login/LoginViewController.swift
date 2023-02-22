@@ -7,18 +7,28 @@
 
 import UIKit
 
+/// Протокол для Представления экрана логина
 protocol ILoginViewController: AnyObject {
+	/// Отрисовка данных на Представлении.
+	/// - Parameter viewModel: Данные для отрисовки
 	func render(viewModel: LoginModels.ViewModel)
+	
+	/// Подготовка Представления для работы
+	/// - Parameters:
+	///   - interactor: настройка Интерактора
+	///   - router: настройка Роутера
 	func assembly(interactor: ILoginInteractor, router: ILoginRouter)
 }
 
-class LoginViewController: UIViewController {
+final class LoginViewController: UIViewController {
 	private var interactor: ILoginInteractor?
 	private var router: ILoginRouter?
 	
 	@IBOutlet weak var textFieldLogin: UITextField!
 	@IBOutlet weak var textFieldPass: UITextField!
-	
+		
+	/// Нажатие кнопки Логин.
+	/// - Parameter sender: Нажатая кнопка
 	@IBAction func buttonLogin(_ sender: Any) {
 		if let email = textFieldLogin.text, let password = textFieldPass.text {
 			let request = LoginModels.Request(login: email, password: password)

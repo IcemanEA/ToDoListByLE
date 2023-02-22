@@ -9,9 +9,23 @@ import Foundation
 
 
 /// Пространство имен сцены Списка задач
-enum TaskModel {
+enum TaskListModels {
 	
-	/// Структура для хранения информации по отрисовкеданных на Вью
+	/// Отработка потока данных из ViewController на Interactor
+//	struct Request { }
+	
+	/// Отработка потока данных из Interactor На Presentor
+	struct Responce {
+		/// Хранение списка общих задач с разбивкой по секциям
+		struct Section {
+			let title: String
+			let tasks: [Task]
+		}
+		
+		let tasksBySection: [Section]
+	}
+	
+	/// Отработка потока данных из Presentor на ViewController
 	struct ViewData {
 		
 		/// Обычные задания
@@ -42,12 +56,12 @@ enum TaskModel {
 			case importantTask(ImportantTask)
 		}
 		
-		// Хранение списка задач с разбивкой по секциям
+		/// Хранение списка скомпонованных задач с разбивкой по секциям
 		struct Section {
 			let title: String
 			let tasks: [Task]
 		}
-		
+				
 		/// Список секций с задачами
 		let tasksBySection: [Section]
 		

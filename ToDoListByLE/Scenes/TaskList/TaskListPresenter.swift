@@ -9,72 +9,52 @@ import Foundation
 
 /// Протокол презентора списка задач
 protocol ITaskListPresenter {
-	/// Инициализатор
-	/// - Parameters:
-	///   - view: Связка с окном отображения Вью
-	///   - sectionTaskManager: Секционное управление задачами для выбора и отрисовке конкретной
-	init(view: ITaskListViewController, sectionTaskManager: ISectionForTaskManagerAdapter)
-	
-	/// Готовность к сборке View
-	func viewIsReady()
-	
-	/// Обновляем конкретную строку
-	/// - Parameter indexPath: Секция и номер строки
-	/// - Returns: Возврат значения нового положения в списке
-	func updateRow(at indexPath: IndexPath) -> IndexPath
+	/// Представление данных для отрисовки на представлении
+	/// - Parameter responce: модель данных для перобразования
+	func present(responce: TaskListModels.Responce)
 }
 
 /// Презентор отображения списка задач
 final class TaskListPresenter: ITaskListPresenter {
 	
-	private unowned let view: ITaskListViewController
-	private let sectionTaskManager: ISectionForTaskManagerAdapter
+	private weak var view: ITaskListViewController?
 		
-	init(view: ITaskListViewController, sectionTaskManager: ISectionForTaskManagerAdapter) {
+	init(view: ITaskListViewController?) {
 		self.view = view
-		self.sectionTaskManager = sectionTaskManager
 	}
 	
-	func viewIsReady() {
-		view.render(viewData: mapViewData())
+	func present(responce: TaskListModels.Responce) {
+		view?.render(viewData: mapViewData(responseSections: responce.tasksBySection))
 	}
 	
-	func updateRow(at indexPath: IndexPath) -> IndexPath {
-		guard let task = sectionTaskManager.getTask(from: indexPath) else { return indexPath }
+	// MARK: - Private Methods
+	/// Подготавливаем данные по секционно
+	private func mapViewData(responseSections: [TaskListModels.Responce.Section]) -> TaskListModels.ViewData {
+		var sections = [TaskListModels.ViewData.Section]()
 		
-		task.completed.toggle()
-		
-		view.render(viewData: mapViewData())
-		return sectionTaskManager.getPosition(for: task)
-	}
-	
-	// Подготавливаем данные по секционно
-	private func mapViewData() -> TaskModel.ViewData {
-		var sections = [TaskModel.ViewData.Section]()
-		
-		for (index, title) in sectionTaskManager.getSectionTitles().enumerated() {
-			let sectionData = TaskModel.ViewData.Section(
-				title: title,
-				tasks: mapTasksData(tasks: sectionTaskManager.getTasksInSection(in: index))
+		for (index, responseSection) in responseSections.enumerated() {
+			let sectionData = TaskListModels.ViewData.Section(
+				title: responseSection.title,
+				tasks: mapTasksData(tasks: responseSections[index].tasks)
 			)
 			
 			sections.append(sectionData)
 		}
 		
-		return TaskModel.ViewData(tasksBySection: sections)
+		return TaskListModels.ViewData(tasksBySection: sections)
 	}
 	
-	// Преобразуем Массив задач модели в массив для отображения
-	private func mapTasksData(tasks: [Task]) -> [TaskModel.ViewData.Task] {
+	/// Преобразуем Массив задач модели в массив для отображения
+	private func mapTasksData(tasks: [Task]) -> [TaskListModels.ViewData.Task] {
 		tasks.map{ mapTaskData(task: $0) }
 	}
 	
-	// Преобразуем отдельную задачу модели в задачу для отображения относительно её класса
-	private func mapTaskData(task: Task) -> TaskModel.ViewData.Task {
+	/// Преобразуем отдельную задачу модели в задачу для отображения относительно её класса
+	private func mapTaskData(task: Task) -> TaskListModels.ViewData.Task {
 		if let task = task as? ImportantTask {
 			let expiredDateString = task.expiredDate?.formatted(date: .abbreviated, time: .omitted) ?? ""
 			
-			let result = TaskModel.ViewData.ImportantTask(
+			let result = TaskListModels.ViewData.ImportantTask(
 				title: task.title,
 				isCompleted: task.completed,
 				secondaryTitle: task.completed ? nil : "Expired \(expiredDateString)",
@@ -83,7 +63,7 @@ final class TaskListPresenter: ITaskListPresenter {
 			)
 			return .importantTask(result)
 		} else {
-			let result = TaskModel.ViewData.RegularTask(
+			let result = TaskListModels.ViewData.RegularTask(
 				title: task.title,
 				isCompleted: task.completed
 			)

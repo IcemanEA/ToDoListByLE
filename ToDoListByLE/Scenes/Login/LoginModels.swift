@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Пространство имен сцены Логина
 enum LoginModels {
 	struct Request {
 		var login: String

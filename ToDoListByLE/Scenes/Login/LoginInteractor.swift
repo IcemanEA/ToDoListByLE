@@ -7,17 +7,15 @@
 
 import Foundation
 
-protocol LoginDataStore
-{
-	var email: String? { get set }
-	var password: String? { get set }
-}
-
+/// Протокол для Интерактора экрана логина
 protocol ILoginInteractor {
+	/// Передача данных для логина
+	/// - Parameter request: Модель передачи от представления в интерактор
 	func login(request: LoginModels.Request)
 }
 
-class LoginInteractor: ILoginInteractor {
+/// Интерактор экрана логина
+final class LoginInteractor: ILoginInteractor {
 	private var worker: ILoginWorker
 	private var presenter: ILoginPresenter?
 	

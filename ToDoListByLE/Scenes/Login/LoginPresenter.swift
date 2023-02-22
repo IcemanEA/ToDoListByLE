@@ -5,11 +5,15 @@
 //  Created by Egor Ledkov on 21.02.2023.
 //
 
+/// Протокол для Презентора экрана логина
 protocol ILoginPresenter {
+	/// Проработка данных для отрисовки на представлении
+	/// - Parameter responce: модель данных для презентора
 	func present(responce: LoginModels.Responce)
 }
 
-class LoginPresenter: ILoginPresenter {
+/// Презентор экрана логина
+final class LoginPresenter: ILoginPresenter {
 	private weak var viewController: ILoginViewController?
 	
 	init(viewController: ILoginViewController?) {
